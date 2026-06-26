@@ -1,0 +1,15 @@
+{
+  "name": "Group 5 ATM",
+  "short_name": "Group 5 ATM",
+  "description": "Human-centered ATM interface prototype",
+  "start_url": "./atm-mockup.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F3EC",
+  "theme_color": "#15233D",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

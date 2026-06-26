@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Group 5 ATM — Interactive Mockup</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#15233D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Group 5 ATM">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+  :root{
+    --navy:#15233D;
+    --navy-dark:#0B1422;
+    --steel:#2C3E5C;
+    --cream:#F6F3EC;
+    --teal:#0E7C7B;
+    --teal-dark:#0A5F5E;
+    --amber:#D98A2B;
+    --green:#2E8B57;
+    --red:#C0463C;
+    --ink:#1B1B1B;
+    --muted:#6B7280;
+    --focus:#FFD166;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:radial-gradient(circle at 30% 20%, #25344f, #0B1422 70%);
+    font-family:'Inter',system-ui,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    min-height:100vh;
+    padding:32px 16px 60px;
+    color:var(--ink);
+  }
+  .page-title{color:#EDEFF4;text-align:center;max-width:640px;margin-bottom:26px;}
+  .page-title h1{font-size:19px;letter-spacing:.02em;margin:0 0 6px;font-weight:700;}
+  .page-title p{font-size:13px;color:#9aa6c0;margin:0;line-height:1.5;}
+
+  /* ---- Kiosk shell ---- */
+  .kiosk{
+    background:linear-gradient(180deg,var(--steel),var(--navy) 18%, var(--navy-dark));
+    border-radius:26px;
+    padding:22px 18px 30px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+    width:min(94vw, 560px);
+    position:relative;
+  }
+  .kiosk-brand{
+    display:flex;justify-content:space-between;align-items:center;
+    color:#cfd6e6;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    padding:0 6px 14px;font-weight:600;
+  }
+  .kiosk-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;box-shadow:0 0 8px var(--green);}
+
+  .screen-frame{
+    display:grid;
+    grid-template-columns:34px 1fr 34px;
+    gap:8px;
+    align-items:stretch;
+  }
+  .side-keys{display:flex;flex-direction:column;justify-content:space-around;padding:10px 0;}
+  .side-key{
+    width:14px;height:14px;border-radius:50%;
+    background:#3a4a68;margin:0 auto;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.15);
+    border:none;cursor:pointer;position:relative;
+  }
+  .side-key.active{background:var(--focus);box-shadow:0 0 10px var(--focus);}
+  .side-key:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
+
+  .screen{
+    background:var(--cream);
+    border-radius:10px;
+    min-height:480px;
+    padding:22px 20px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow:hidden;
+    border:6px solid #050a12;
+  }
+  .screen-header{
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:11px;color:var(--muted);margin-bottom:14px;font-weight:600;
+  }
+  .screen-header .clock{font-family:'IBM Plex Mono',monospace;}
+  .step-title{font-size:18px;font-weight:800;color:var(--navy);margin:0 0 4px;}
+  .step-sub{font-size:13px;color:var(--muted);margin:0 0 18px;line-height:1.5;}
+  .screen-body{flex:1;display:flex;flex-direction:column;}
+
+  .btn-row{display:flex;gap:10px;margin-top:auto;flex-wrap:wrap;}
+  button{font-family:inherit;}
+  .btn{
+    border:none;border-radius:10px;padding:14px 16px;font-size:14px;font-weight:700;
+    cursor:pointer;min-height:48px;transition:transform .08s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+  .btn-primary{background:var(--teal);color:#fff;}
+  .btn-primary:hover{background:var(--teal-dark);}
+  .btn-secondary{background:#E7E2D6;color:var(--navy);}
+  .btn-secondary:hover{background:#dcd6c6;}
+  .btn-danger{background:transparent;color:var(--red);border:2px solid var(--red);}
+  .btn-block{width:100%;}
+
+  .option-list{display:flex;flex-direction:column;gap:10px;}
+  .option{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border:2px solid #E4E0D4;border-radius:12px;
+    padding:14px 16px;cursor:pointer;font-weight:700;font-size:14.5px;color:var(--navy);
+    min-height:52px;
+  }
+  .option:hover{border-color:var(--teal);}
+  .option:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+  .option .chev{color:var(--teal);font-weight:700;}
+  .option .badge-key{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
+    background:#F1EEE3;border-radius:6px;padding:2px 6px;margin-right:8px;
+  }
+
+  .pin-dots{display:flex;gap:14px;justify-content:center;margin:18px 0 22px;}
+  .pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--navy);}
+  .pin-dot.filled{background:var(--navy);}
+  .pin-dot.error{border-color:var(--red);background:var(--red);}
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:auto;}
+  .key{
+    background:#fff;border:2px solid #E4E0D4;border-radius:10px;
+    font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
+    padding:14px 0;cursor:pointer;color:var(--navy);min-height:50px;
+  }
+  .key:hover{border-color:var(--teal);}
+  .key:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+  .key.func{font-family:'Inter';font-size:12px;font-weight:700;color:var(--red);}
+
+  .amount-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .amount-chip{
+    background:#fff;border:2px solid #E4E0D4;border-radius:10px;
+    font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;
+    padding:14px 0;cursor:pointer;color:var(--navy);min-height:50px;
+  }
+  .amount-chip:hover, .amount-chip.selected{border-color:var(--teal);background:#EAF6F5;}
+  .amount-chip:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+
+  .display-amount{
+    font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:700;
+    color:var(--navy);text-align:center;margin:6px 0 18px;
+  }
+
+  .spinner{
+    width:46px;height:46px;border-radius:50%;
+    border:5px solid #E4E0D4;border-top-color:var(--teal);
+    margin:30px auto 18px;animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .center-msg{text-align:center;}
+
+  .toast{
+    position:absolute;left:20px;right:20px;bottom:16px;
+    background:var(--navy);color:#fff;font-size:12.5px;border-radius:10px;
+    padding:10px 14px;display:flex;gap:8px;align-items:flex-start;
+    box-shadow:0 10px 24px rgba(0,0,0,.25);
+  }
+  .toast .icon{flex-shrink:0;}
+
+  .progress-track{height:4px;background:#E4E0D4;border-radius:4px;margin-bottom:16px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--teal);border-radius:4px;transition:width .3s ease;}
+
+  /* Accessibility panel + controls */
+  .a11y-bar{
+    display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center;
+  }
+  .a11y-toggle{
+    background:#1d2c47;color:#cfd6e6;border:1px solid #33456b;border-radius:20px;
+    font-size:11.5px;padding:7px 12px;cursor:pointer;font-weight:600;display:flex;gap:6px;align-items:center;
+  }
+  .a11y-toggle[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .a11y-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+
+  .captions{
+    margin-top:10px;background:#000;color:#fff;font-size:12px;border-radius:8px;
+    padding:8px 12px;min-height:18px;text-align:center;opacity:.92;
+  }
+
+  /* High contrast mode */
+  body.contrast .screen{background:#000;border-color:#000;}
+  body.contrast .step-title,body.contrast .display-amount{color:#FFD166;}
+  body.contrast .step-sub, body.contrast .screen-header{color:#cfd6e6;}
+  body.contrast .option, body.contrast .key, body.contrast .amount-chip{background:#000;color:#fff;border-color:#555;}
+  body.contrast .option:hover, body.contrast .key:hover, body.contrast .amount-chip:hover{border-color:#FFD166;}
+  body.contrast .btn-secondary{background:#222;color:#fff;}
+  body.contrast .pin-dot{border-color:#fff;}
+  body.contrast .pin-dot.filled{background:#FFD166;border-color:#FFD166;}
+
+  /* Large text mode */
+  body.large .step-title{font-size:23px;}
+  body.large .step-sub{font-size:15px;}
+  body.large .option,body.large .key,body.large .amount-chip,body.large .btn{font-size:17px;}
+  body.large .display-amount{font-size:36px;}
+
+  .note{
+    max-width:560px;margin-top:22px;background:#10192c;border:1px solid #25324c;
+    border-radius:12px;padding:14px 16px;color:#a9b3c9;font-size:12.5px;line-height:1.6;
+  }
+  .note b{color:#e3e7f0;}
+  .sr-only{position:absolute;left:-9999px;}
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>ATM Interface — Human-Centered Design Mockup</h1>
+  <p>A working click-through prototype. Side dots simulate the physical function keys found on real ATMs, mapped live to the option beside them — so touch and hardware stay consistent. Try the accessibility controls below the screen.</p>
+</div>
+
+<div class="kiosk">
+  <div class="kiosk-brand"><span><span class="dot"></span>Group 5 ATM</span><span id="sessionLabel">Session: Guest</span></div>
+
+  <div class="screen-frame">
+    <div class="side-keys" id="leftKeys">
+      <button class="side-key" data-side="L1" aria-label="Function key left 1"></button>
+      <button class="side-key" data-side="L2" aria-label="Function key left 2"></button>
+      <button class="side-key" data-side="L3" aria-label="Function key left 3"></button>
+      <button class="side-key" data-side="L4" aria-label="Function key left 4"></button>
+    </div>
+
+    <div class="screen" id="screen" role="region" aria-live="polite">
+      <!-- JS renders states here -->
+    </div>
+
+    <div class="side-keys" id="rightKeys">
+      <button class="side-key" data-side="R1" aria-label="Function key right 1"></button>
+      <button class="side-key" data-side="R2" aria-label="Function key right 2"></button>
+      <button class="side-key" data-side="R3" aria-label="Function key right 3"></button>
+      <button class="side-key" data-side="R4" aria-label="Function key right 4"></button>
+    </div>
+  </div>
+
+  <div class="a11y-bar">
+    <button class="a11y-toggle" id="toggleLarge" aria-pressed="false">🔍 Large Text</button>
+    <button class="a11y-toggle" id="toggleContrast" aria-pressed="false">◐ High Contrast</button>
+    <button class="a11y-toggle" id="toggleAudio" aria-pressed="false">🔊 Audio Captions</button>
+    <button class="a11y-toggle" id="resetBtn">⟲ Restart Demo</button>
+    <button class="a11y-toggle" id="installBtn" style="display:none;background:var(--teal);border-color:var(--teal);color:#fff;">⬇ Install App</button>
+  </div>
+  <div class="captions" id="captions" aria-hidden="true"></div>
+</div>
+
+<div class="note">
+  <b>Design intent.</b> Every screen keeps one primary action, large touch targets (≥48px), visible focus states for keyboard/assistive switches, and a confirm step before money moves. The accessibility bar simulates the kind of settings a real unit would expose at the start of a session (text size, contrast, and a screen-reader-style caption feed) rather than burying them in a menu.
+</div>
+
+<script>
+const screen = document.getElementById('screen');
+const captions = document.getElementById('captions');
+const sessionLabel = document.getElementById('sessionLabel');
+let audioOn = false;
+let state = {};
+
+function speak(text){
+  if(!audioOn) return;
+  captions.textContent = text;
+}
+
+function render(){
+  document.querySelectorAll('.side-key').forEach(k=>k.classList.remove('active'));
+  screen.innerHTML = views[state.step]();
+}
+
+function goto(step, extra){
+  state = {...state, step, ...extra};
+  render();
+}
+
+const views = {
+
+  welcome: () => {
+    speak("Welcome to Group 5. Insert your card to begin.");
+    return `
+      <div class="screen-header"><span>Group 5</span><span class="clock">${nowTime()}</span></div>
+      <div class="screen-body center-msg" style="justify-content:center;align-items:center;">
+        <div style="font-size:42px;margin-bottom:10px;">💳</div>
+        <h2 class="step-title">Insert or tap your card</h2>
+        <p class="step-sub">Card stays in the reader for the whole session, so it can't be left behind.</p>
+        <button class="btn btn-primary" onclick="goto('language')">Insert Card (Simulate)</button>
+      </div>`;
+  },
+
+  language: () => {
+    speak("Choose your language.");
+    return `
+      <div class="screen-header"><span>Step 1 of 5</span><span class="clock">${nowTime()}</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:20%"></div></div>
+      <h2 class="step-title">Choose your language</h2>
+      <p class="step-sub">Card detected. This choice also sets captions and audio for the rest of your visit.</p>
+      <div class="option-list" role="listbox">
+        <button class="option" onclick="goto('pin',{lang:'English'})"><span><span class="badge-key">L1</span>English</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('pin',{lang:'Español'})"><span><span class="badge-key">L2</span>Español</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('pin',{lang:'中文'})"><span><span class="badge-key">L3</span>中文</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('pin',{lang:'العربية'})"><span><span class="badge-key">L4</span>العربية</span><span class="chev">›</span></button>
+      </div>`;
+  },
+
+  pin: () => {
+    const digits = state.pin ? state.pin.length : 0;
+    const err = state.pinError;
+    speak("Enter your four digit PIN.");
+    let dots = '';
+    for(let i=0;i<4;i++){
+      dots += `<span class="pin-dot ${i<digits?'filled':''} ${err?'error':''}"></span>`;
+    }
+    return `
+      <div class="screen-header"><span>Step 2 of 5</span><span class="clock">${nowTime()}</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:40%"></div></div>
+      <h2 class="step-title">Enter your PIN</h2>
+      <p class="step-sub">${err ? '<span style="color:#C0463C;font-weight:700;">Incorrect PIN — please try again.</span>' : 'Your PIN is never shown on screen.'}</p>
+      <div class="pin-dots">${dots}</div>
+      <div class="keypad">
+        ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="key" onclick="pressDigit('${n}')">${n}</button>`).join('')}
+        <button class="key func" onclick="goto('welcome')">CANCEL</button>
+        <button class="key" onclick="pressDigit('0')">0</button>
+        <button class="key func" onclick="backspacePin()">⌫ CLEAR</button>
+      </div>`;
+  },
+
+  menu: () => {
+    speak("Main menu. Choose a transaction.");
+    return `
+      <div class="screen-header"><span>${state.lang} · Step 3 of 5</span><span class="clock">${nowTime()}</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
+      <h2 class="step-title">What would you like to do?</h2>
+      <p class="step-sub">Hi! Choose one transaction. You'll get a clear confirmation before anything happens.</p>
+      <div class="option-list">
+        <button class="option" onclick="goto('amount')"><span><span class="badge-key">R1</span>Withdraw cash</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('balance')"><span><span class="badge-key">R2</span>Check balance</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('menu')"><span><span class="badge-key">R3</span>Deposit cash</span><span class="chev">›</span></button>
+        <button class="option" onclick="goto('menu')"><span><span class="badge-key">R4</span>Transfer funds</span><span class="chev">›</span></button>
+      </div>
+      <div class="btn-row"><button class="btn btn-danger btn-block" onclick="goto('welcome')">End session</button></div>`;
+  },
+
+  balance: () => {
+    speak("Your checking balance is shown on screen.");
+    return `
+      <div class="screen-header"><span>${state.lang} · Balance</span><span class="clock">${nowTime()}</span></div>
+      <h2 class="step-title">Checking account</h2>
+      <p class="step-sub">Balance as of right now. Nothing else has changed.</p>
+      <div class="display-amount">$1,284.56</div>
+      <div class="btn-row" style="margin-top:0;">
+        <button class="btn btn-secondary" onclick="goto('menu')">Back to menu</button>
+        <button class="btn btn-primary" onclick="goto('done')">Finish &amp; take card</button>
+      </div>`;
+  },
+
+  amount: () => {
+    speak("Choose an amount to withdraw.");
+    const amounts = [20,40,60,100,150,200];
+    return `
+      <div class="screen-header"><span>${state.lang} · Step 4 of 5</span><span class="clock">${nowTime()}</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:80%"></div></div>
+      <h2 class="step-title">Withdraw cash</h2>
+      <p class="step-sub">Pick a quick amount, or enter your own below.</p>
+      <div class="amount-grid">
+        ${amounts.map(a=>`<button class="amount-chip ${state.amount===a?'selected':''}" onclick="goto('confirm',{amount:${a}})">$${a}</button>`).join('')}
+      </div>
+      <button class="btn btn-secondary btn-block" onclick="goto('customAmount')">Enter a different amount</button>`;
+  },
+
+  customAmount: () => {
+    const val = state.customAmount || '';
+    speak("Type the amount you want, then confirm.");
+    return `
+      <div class="screen-header"><span>${state.lang} · Step 4 of 5</span><span class="clock">${nowTime()}</span></div>
+      <h2 class="step-title">Enter amount</h2>
+      <p class="step-sub">Whole dollars only. Multiples of $10.</p>
+      <div class="display-amount">$${val || '0'}</div>
+      <div class="keypad">
+        ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="key" onclick="typeAmount('${n}')">${n}</button>`).join('')}
+        <button class="key func" onclick="goto('amount')">CANCEL</button>
+        <button class="key" onclick="typeAmount('0')">0</button>
+        <button class="key func" onclick="clearAmount()">⌫ CLEAR</button>
+      </div>
+      <button class="btn btn-primary btn-block" style="margin-top:10px;" onclick="confirmCustomAmount()">Continue</button>`;
+  },
+
+  confirm: () => {
+    speak("Please confirm your withdrawal amount.");
+    return `
+      <div class="screen-header"><span>${state.lang} · Confirm</span><span class="clock">${nowTime()}</span></div>
+      <h2 class="step-title">Confirm withdrawal</h2>
+      <p class="step-sub">Double-checking before cash is dispensed — this step can prevent costly mistakes.</p>
+      <div class="display-amount">$${state.amount}</div>
+      <p class="step-sub" style="margin-top:-8px;">From: Checking ····4821</p>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goto('amount')">Change amount</button>
+        <button class="btn btn-primary" onclick="goto('processing')">Confirm</button>
+      </div>`;
+  },
+
+  processing: () => {
+    speak("Processing your request. Please wait.");
+    setTimeout(()=>goto('dispensing'), 1400);
+    return `
+      <div class="screen-header"><span>${state.lang} · Processing</span><span class="clock">${nowTime()}</span></div>
+      <div class="screen-body center-msg" style="justify-content:center;align-items:center;">
+        <div class="spinner"></div>
+        <h2 class="step-title">Processing…</h2>
+        <p class="step-sub">Please don't remove your card.</p>
+      </div>`;
+  },
+
+  dispensing: () => {
+    speak("Take your cash from the dispenser below.");
+    return `
+      <div class="screen-header"><span>${state.lang} · Almost done</span><span class="clock">${nowTime()}</span></div>
+      <div class="screen-body center-msg" style="justify-content:center;align-items:center;">
+        <div style="font-size:42px;margin-bottom:8px;">💵</div>
+        <h2 class="step-title">Take your $${state.amount}</h2>
+        <p class="step-sub">Cash is in the dispenser below the screen. It's the last thing you'll need before your card.</p>
+        <button class="btn btn-primary" onclick="goto('receipt')">I've taken my cash</button>
+      </div>`;
+  },
+
+  receipt: () => {
+    speak("Would you like a receipt?");
+    return `
+      <div class="screen-header"><span>${state.lang} · Receipt</span><span class="clock">${nowTime()}</span></div>
+      <h2 class="step-title">Want a receipt?</h2>
+      <p class="step-sub">New balance: $${(1284.56 - state.amount).toFixed(2)}</p>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goto('done')">No thanks</button>
+        <button class="btn btn-primary" onclick="goto('done')">Print receipt</button>
+      </div>`;
+  },
+
+  done: () => {
+    speak("Don't forget your card. Thank you for banking with us.");
+    return `
+      <div class="screen-header"><span>Session complete</span><span class="clock">${nowTime()}</span></div>
+      <div class="screen-body center-msg" style="justify-content:center;align-items:center;">
+        <div style="font-size:42px;margin-bottom:8px;">💳⚠️</div>
+        <h2 class="step-title">Don't forget your card!</h2>
+        <p class="step-sub">Card ejects now. Thanks for banking with Group 5.</p>
+        <button class="btn btn-primary" onclick="goto('welcome')">Take card &amp; restart demo</button>
+      </div>
+      <div class="toast"><span class="icon">⏱</span><span>Card auto-ejects after 30s of inactivity to keep accounts safe.</span></div>`;
+  }
+};
+
+function pressDigit(d){
+  const pin = (state.pin || '') + d;
+  if(pin.length < 4){ goto('pin', {pin}); return; }
+  // 4 digits entered — validate (demo: "1234" is the only "correct" PIN)
+  if(pin === '1234'){
+    goto('menu', {pin:'', pinError:false});
+  } else {
+    goto('pin', {pin:'', pinError:true});
+    setTimeout(()=>goto('pin', {pin:'', pinError:false}), 1300);
+  }
+}
+function backspacePin(){ goto('pin', {pin:(state.pin||'').slice(0,-1), pinError:false}); }
+
+function typeAmount(d){
+  let val = (state.customAmount || '') + d;
+  if(val.length > 4) return;
+  goto('customAmount', {customAmount: val});
+}
+function clearAmount(){ goto('customAmount', {customAmount:''}); }
+function confirmCustomAmount(){
+  const amt = parseInt(state.customAmount || '0', 10);
+  if(amt < 10 || amt % 10 !== 0){
+    captions.textContent = "Please enter a multiple of $10, at least $10.";
+    return;
+  }
+  goto('confirm', {amount: amt});
+}
+
+function nowTime(){
+  return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+}
+
+// Map side hardware buttons to whatever is logically "first option" on screen, for demo purposes
+document.querySelectorAll('.side-key').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    btn.classList.add('active');
+    const first = screen.querySelector('.option, .btn-primary');
+    if(first) first.click();
+  });
+});
+
+document.getElementById('toggleLarge').addEventListener('click', (e)=>{
+  document.body.classList.toggle('large');
+  e.target.setAttribute('aria-pressed', document.body.classList.contains('large'));
+});
+document.getElementById('toggleContrast').addEventListener('click', (e)=>{
+  document.body.classList.toggle('contrast');
+  e.target.setAttribute('aria-pressed', document.body.classList.contains('contrast'));
+});
+document.getElementById('toggleAudio').addEventListener('click', (e)=>{
+  audioOn = !audioOn;
+  e.target.setAttribute('aria-pressed', audioOn);
+  captions.style.display = audioOn ? 'block' : 'none';
+  if(audioOn) speak("Audio captions on.");
+  else captions.textContent = '';
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>goto('welcome', {pin:'',amount:null,customAmount:'',pinError:false}));
+
+captions.style.display = 'none';
+goto('welcome');
+
+// ---- PWA: service worker + install prompt ----
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+  });
+}
+
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  installBtn.style.display = 'inline-flex';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  installBtn.style.display = 'none';
+});
+
+window.addEventListener('appinstalled', () => {
+  installBtn.style.display = 'none';
+});
+
+</script>
+</body>
+</html>
